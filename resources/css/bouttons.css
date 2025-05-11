@@ -1,0 +1,28 @@
+.btn {
+}
+
+.btn-primary {
+    display: inline-block;
+    color: #fff;
+    background: #007bff;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.alert {
+    color: #fff;
+    padding: 15px 12px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    margin-bottom: var(--mb-1);
+}
+
+.alert-success {
+    background: green;
+}
+
+.alert-danger {
+    background: red;
+}

@@ -37,20 +37,41 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
+        // $project = Project::create($request->validated());
+        // $featuredIndex = $request->input('featured_index');
+
+        // $orderedPictures = $request->file('pictures');
+        // // dd($orderedPictures);
+        // $order = explode(',', $request->input('pictures_order'));
+        // // dd($order);
+
+        // $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
+        // $project->technologies()->sync($request->validated('technologies'));
+        // // dd($orderedPictures);
+
+        // // $project->attachFiles($request->validated('pictures'), $featuredIndex);
+        // $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+        // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
+        // Création du projet
         $project = Project::create($request->validated());
+
+        // Rechargement du modèle avec son ID (par sécurité dans des environnements stricts)
+        $project->refresh();
+
+        // Gestion des fichiers
         $featuredIndex = $request->input('featured_index');
-
         $orderedPictures = $request->file('pictures');
-        // dd($orderedPictures);
         $order = explode(',', $request->input('pictures_order'));
-        // dd($order);
-
         $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
-        $project->technologies()->sync($request->validated('technologies'));
-        // dd($orderedPictures);
 
-        // $project->attachFiles($request->validated('pictures'), $featuredIndex);
+        // Association des technologies
+        if ($request->filled('technologies')) {
+            $project->technologies()->sync($request->validated('technologies'));
+        }
+
+        // Upload des images
         $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+
         return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
     }
 

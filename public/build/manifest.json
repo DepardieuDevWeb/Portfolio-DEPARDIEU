@@ -1,0 +1,24 @@
+{
+  "public/icons/arrow-sm-left-svgrepo-com.svg": {
+    "file": "assets/arrow-sm-left-svgrepo-com-BodOPFd_.svg",
+    "src": "public/icons/arrow-sm-left-svgrepo-com.svg"
+  },
+  "public/icons/arrow-sm-right-svgrepo-com.svg": {
+    "file": "assets/arrow-sm-right-svgrepo-com-DbZbgGsM.svg",
+    "src": "public/icons/arrow-sm-right-svgrepo-com.svg"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-Dn0A5NSJ.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DZTgr8r6.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-RF3SV8iC.css"
+    ]
+  }
+}

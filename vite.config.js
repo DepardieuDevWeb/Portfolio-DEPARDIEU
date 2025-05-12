@@ -18,4 +18,14 @@ export default defineConfig({
         //     hook: "writeBundle",
         // }),
     ],
+    build: {
+        manifest: true,
+        outDir: "public/build",
+        rollupOptions: {
+            input: "resources/js/app.js",
+        },
+    },
+    server: {
+        host: true,
+    },
 });

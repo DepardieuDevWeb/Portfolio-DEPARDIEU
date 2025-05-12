@@ -53,26 +53,42 @@ class ProjectController extends Controller
         // $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
         // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
         // Création du projet
+        // $project = Project::create($request->validated());
+
+        // // Rechargement du modèle avec son ID (par sécurité dans des environnements stricts)
+        // $project->refresh();
+
+        // // Gestion des fichiers
+        // $featuredIndex = $request->input('featured_index');
+        // $orderedPictures = $request->file('pictures');
+        // $order = explode(',', $request->input('pictures_order'));
+        // $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
+
+        // // Association des technologies
+        // if ($request->filled('technologies')) {
+        //     $project->technologies()->sync($request->validated('technologies'));
+        // }
+
+        // // Upload des images
+        // $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+
+        // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
+        DB::transaction(function () use ($request) {
         $project = Project::create($request->validated());
 
-        // Rechargement du modèle avec son ID (par sécurité dans des environnements stricts)
-        $project->refresh();
-
-        // Gestion des fichiers
         $featuredIndex = $request->input('featured_index');
         $orderedPictures = $request->file('pictures');
         $order = explode(',', $request->input('pictures_order'));
         $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
 
-        // Association des technologies
         if ($request->filled('technologies')) {
             $project->technologies()->sync($request->validated('technologies'));
         }
 
-        // Upload des images
         $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+    });
 
-        return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
+    return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
     }
 
     /**

@@ -38,21 +38,21 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        // $project = Project::create($request->validated());
-        // $featuredIndex = $request->input('featured_index');
+        $project = Project::create($request->validated());
+        $featuredIndex = $request->input('featured_index');
 
-        // $orderedPictures = $request->file('pictures');
-        // // dd($orderedPictures);
-        // $order = explode(',', $request->input('pictures_order'));
-        // // dd($order);
+        $orderedPictures = $request->file('pictures');
+        // dd($orderedPictures);
+        $order = explode(',', $request->input('pictures_order'));
+        // dd($order);
 
-        // $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
+        $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
         // $project->technologies()->sync($request->validated('technologies'));
-        // // dd($orderedPictures);
+        // dd($orderedPictures);
 
-        // // $project->attachFiles($request->validated('pictures'), $featuredIndex);
-        // $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
-        // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
+        // $project->attachFiles($request->validated('pictures'), $featuredIndex);
+        $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+        return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
         // Création du projet
         // $project = Project::create($request->validated());
 
@@ -89,23 +89,23 @@ class ProjectController extends Controller
         // });
 
         // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
-        DB::transaction(function () use ($request) {
-            $project = Project::create($request->validated());
-            $featuredIndex = $request->input('featured_index');
+        // DB::transaction(function () use ($request) {
+        //     $project = Project::create($request->validated());
+        //     $featuredIndex = $request->input('featured_index');
 
-            $orderedPictures = $request->file('pictures');
-            $order = explode(',', $request->input('pictures_order'));
-            $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
+        //     $orderedPictures = $request->file('pictures');
+        //     $order = explode(',', $request->input('pictures_order'));
+        //     $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
 
-            // Sécuriser le sync avec uniquement les IDs valides
-            // $project->technologies()->sync($request->validated('technologies'));
-            // $technologyIds = Technology::whereIn('id', $request->validated('technologies'))->pluck('id')->toArray();
-            // $project->technologies()->sync($technologyIds);
+        //     // Sécuriser le sync avec uniquement les IDs valides
+        //     // $project->technologies()->sync($request->validated('technologies'));
+        //     // $technologyIds = Technology::whereIn('id', $request->validated('technologies'))->pluck('id')->toArray();
+        //     // $project->technologies()->sync($technologyIds);
 
-            $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
-        });
+        //     $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+        // });
 
-        return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
+        // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
     }
 
     /**

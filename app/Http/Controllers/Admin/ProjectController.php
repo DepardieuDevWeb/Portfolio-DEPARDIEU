@@ -75,20 +75,20 @@ class ProjectController extends Controller
 
         // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
         DB::transaction(function () use ($request) {
-        $project = Project::create($request->validated());
-        $featuredIndex = $request->input('featured_index');
-        $orderedPictures = $request->file('pictures');
-        $order = explode(',', $request->input('pictures_order'));
-        $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
+            $project = Project::create($request->validated());
+            $featuredIndex = $request->input('featured_index');
+            $orderedPictures = $request->file('pictures');
+            $order = explode(',', $request->input('pictures_order'));
+            $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
 
-        if ($request->filled('technologies')) {
-            $project->technologies()->sync($request->validated('technologies'));
-        }
+            if ($request->filled('technologies')) {
+                $project->technologies()->sync($request->validated('technologies'));
+            }
 
-        $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
-    });
+            $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+        });
 
-    return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
+        return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
     }
 
     /**
@@ -115,9 +115,28 @@ class ProjectController extends Controller
      */
     public function update(ProjectRequest $request, Project $project)
     {
-        $project->update($request->validated());
-        $project->technologies()->sync($request->validated('technologies'));
-        $project->attachFiles($request->validated('pictures'));
+        // $project->update($request->validated());
+        // $project->technologies()->sync($request->validated('technologies'));
+        // $project->attachFiles($request->validated('pictures'));
+        // return to_route('admin.projects.index')->with('success', 'Le projet a bien été modifié');
+        DB::transaction(function () use ($request, $project) {
+            // Mise à jour du projet
+            $project->update($request->validated());
+
+            // Synchronisation des technologies si présentes
+            if ($request->filled('technologies')) {
+                $project->technologies()->sync($request->validated('technologies'));
+            }
+
+            // Gestion des fichiers (ordonnés ou non selon ton usage)
+            $featuredIndex = $request->input('featured_index');
+            $orderedPictures = $request->file('pictures');
+            $order = explode(',', $request->input('pictures_order'));
+            $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
+
+            $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
+        });
+
         return to_route('admin.projects.index')->with('success', 'Le projet a bien été modifié');
     }
 

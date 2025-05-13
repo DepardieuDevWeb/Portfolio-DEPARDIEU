@@ -30,7 +30,7 @@ class ProjectRequest extends FormRequest
             'project_url' => ['string', 'nullable'],
             'github_url' => ['string', 'nullable'],
             'featured_index' => ['required'],
-            'technologies' => ['required', 'array'],
+            'technologies' => ['nullable', 'array'],
             'technologies.*' => ['integer', 'exists:technologies,id'],
             'pictures' => ['array'],
             'pictures.*' => ['image' => 'max:5000'],

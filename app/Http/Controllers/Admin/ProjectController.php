@@ -156,10 +156,11 @@ class ProjectController extends Controller
         // return to_route('admin.projects.index')->with('success', 'Le projet a bien été modifié');
         DB::transaction(function () use ($request, $project) {
             $project->update($request->validated());
-            dd($request->validated('technologies'));
+            // dd($request->validated('technologies'));
 
             // Assure-toi que les IDs de technologies existent vraiment dans la base
             $technologyIds = Technology::whereIn('id', $request->validated('technologies'))->pluck('id')->toArray();
+            dd($request->all());
             $project->technologies()->sync($technologyIds);
 
             $featuredIndex = $request->input('featured_index');

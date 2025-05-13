@@ -28,11 +28,11 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        $publicStorage = public_path('storage');
-    $target = storage_path('app/public');
+    //     $publicStorage = public_path('storage');
+    // $target = storage_path('app/public');
 
-    if (!File::exists($publicStorage)) {
-        File::link($target, $publicStorage);
-    }   
+    // if (!File::exists($publicStorage)) {
+    //     File::link($target, $publicStorage);
+    // }   
     }
 }

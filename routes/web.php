@@ -7,6 +7,17 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\TechnologyController;
+use Illuminate\Support\Facades\Artisan;
+
+
+
+// Route::get('/link-storage', function () {
+//     Artisan::call('storage:link');
+//     return 'storage link created';
+// });
+
+Artisan::call('storage:link');
+
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/project/{project}', [HomeController::class, 'project'])->name('project');

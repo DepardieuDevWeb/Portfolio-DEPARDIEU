@@ -19,7 +19,9 @@ class Picture extends Model
     public function getImageUrl(?int $width = null, ?int $height = null): string
     {
         if ($width === null) {
-            return Storage::disk('public')->url($this->filename);
+            // return Storage::disk('public')->url($this->filename);
+            $baseUrl = 'https://portfolio-depardieu-production.up.railway.app/storage/';
+            return $baseUrl . $this->filename;
         }
     }
 }

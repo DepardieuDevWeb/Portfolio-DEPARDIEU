@@ -8,6 +8,7 @@ use App\Models\Technology;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProjectRequest;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -75,7 +76,6 @@ class ProjectController extends Controller
         // return to_route('admin.projects.index')->with('success', 'Le projet a bien été ajouté');
         DB::transaction(function () use ($request) {
         $project = Project::create($request->validated());
-
         $featuredIndex = $request->input('featured_index');
         $orderedPictures = $request->file('pictures');
         $order = explode(',', $request->input('pictures_order'));

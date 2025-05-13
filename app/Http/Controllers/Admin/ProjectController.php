@@ -162,11 +162,11 @@ class ProjectController extends Controller
             // Assure-toi que les IDs de technologies existent vraiment dans la base
             $technologyIds = Technology::whereIn('id', $request->validated('technologies'))->pluck('id')->toArray();
             // dd($request->all());
-            dd([
-                'technos' => $request->validated('technologies'),
-                'project_id' => $project->id,
-                'already_attached' => $project->technologies->pluck('id'),
-            ]);
+            // dd([
+            //     'technos' => $request->validated('technologies'),
+            //     'project_id' => $project->id,
+            //     'already_attached' => $project->technologies->pluck('id'),
+            // ]);
             $project->technologies()->sync($technologyIds);
 
             $featuredIndex = $request->input('featured_index');

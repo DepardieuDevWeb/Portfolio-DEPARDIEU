@@ -29,9 +29,9 @@ class ProjectRequest extends FormRequest
             'meta_description' => ['string', 'required'],
             'project_url' => ['string', 'nullable'],
             'github_url' => ['string', 'nullable'],
-            'technologies' => ['required'],
             'featured_index' => ['required'],
-            'technologies' => ['array', 'exists:technologies,id', 'required'],
+            'technologies' => ['required', 'array'],
+            'technologies.*' => ['integer', 'exists:technologies,id'],
             'pictures' => ['array'],
             'pictures.*' => ['image' => 'max:5000'],
         ];

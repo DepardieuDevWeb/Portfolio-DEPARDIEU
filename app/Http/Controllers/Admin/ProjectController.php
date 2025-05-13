@@ -98,8 +98,9 @@ class ProjectController extends Controller
             $orderedPictures = collect($order)->map(fn($i) => $orderedPictures[$i] ?? null)->filter();
 
             // Sécuriser le sync avec uniquement les IDs valides
-            $technologyIds = Technology::whereIn('id', $request->validated('technologies'))->pluck('id')->toArray();
-            $project->technologies()->sync($technologyIds);
+            $project->technologies()->sync($request->validated('technologies'));
+            // $technologyIds = Technology::whereIn('id', $request->validated('technologies'))->pluck('id')->toArray();
+            // $project->technologies()->sync($technologyIds);
 
             $project->attachFiles($orderedPictures->values()->all(), $featuredIndex);
         });
